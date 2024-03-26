@@ -1,0 +1,142 @@
+1.	Написать программу, подсчитывающую количество слов, а также гласных и согласных букв в строке, введённой пользователем. Дополнительно выводить количество знаков пунктуации, цифр и других символов. Учесть, что между словами (а также до и после слов) может быть более одного пробела! Текст строки должен быть на английском языке. Пример вывода программы:
+#include <algorithm>
+#include <array>
+#include <cctype>
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+
+	constexpr array<char, 6> arr{ 'a', 'e', 'i', 'o', 'u', 'y' };
+
+	string text;
+
+	cout << "Please, enter a some text: ";
+	getline(cin, text);
+
+	size_t vowels = 0;
+	size_t consonants = 0;
+
+	for (const auto& ch : text) {
+
+		if (isalpha(ch))
+			if (find(arr.begin(), arr.end(), tolower(ch)) != arr.end())
+				++vowels;
+			else
+				++consonants;
+
+	}
+	cout << "There are " << vowels << " vowels and "
+		<< consonants << " consonants letters in your text.\n";
+}
+
+2.	Подсчитать среднюю длину слова во введённом предложении.
+
+#include <iostream>
+#include <cstdlib>
+#include <string>
+#include <sstream>
+using namespace std;
+
+int main() {
+
+	setlocale(0, "");
+
+	register unsigned int count_word(0); // Слова
+	register unsigned int count_letter(0); // Буквы
+	string strone;
+	cout << "Введите предложение: "; // Строка один
+	cin >> strone;
+	string strtwo; // Пустая строка.
+	istringstream str(strone);
+
+	while (str >> strtwo) { // Подчитываем количесво строк.
+		count_word++;
+	}
+
+	for (int i(0); strone[i]; i++) {
+
+		strone[i] == ' ' ? false : count_letter++;
+	}
+
+	cout << "Количество слов: " << count_word << "\n";
+	cout << "Количество букв: " << count_letter << "\n";
+	cout << "Среднее количество букв в слове: " << count_letter / count_word << "\n";
+
+
+	system("pause");
+	return 0;
+}
+
+3.	Определить, является ли строка палиндромом. Примеры палиндромов:
+
+#include <algorithm>
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+    string s;
+    cin >> s;
+    if (equal(s.begin(), s.begin() + s.size() / 2, s.rbegin())) {
+        cout << "is a palindrome" << "\n";
+
+    }
+    else {
+        cout << "is not a palindrome" << "\n";
+    }
+}
+
+4. Напишите программу, которая генерирует пароль указанной длины.
+
+#include <iostream>
+#include <cstdlib>
+#include <string>
+#include <sstream>
+using namespace std;
+
+int main() {
+
+    setlocale(0, "");
+    int N;
+    const int MAX_SIZE = 128;
+    char str[MAX_SIZE];
+    srand(time(0));
+
+    do {
+        system("cls");
+        cout << "Введите размер пароля для генерациии (N > 5): ";
+        cin >> N;
+    } while (N <= 5 || N >= MAX_SIZE);
+
+    for (int i = 0; i < N; ++i)
+        str[i] = char('A' + rand() % 26);
+    str[N] = '\0';
+
+    cout << "Сгенерированный пароль: " << str << "\n";
+
+5. Написать программу, которая проверяет корректность email, указанного с клавиатуры.
+#include <string>
+#include <regex>
+#include <iostream>
+
+using namespace std;
+
+bool isCorrectEmail(const string& email) {
+	regex re("(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)");
+	return regex_search(email, re);
+}
+
+int main() {
+	string email;
+	cout << "Enter email:" << "\n";
+	cin >> email;
+	if (isCorrectEmail(email))
+		cout << "Is correct email!";
+	else
+		cout << "Is invalid email!";
+	return 0;
+}
+
